@@ -23,7 +23,7 @@ const DirectoryNavigator = createStackNavigator(
             headerTintColor: '#fff',
             headerTitleStyle: {
                 color: '#fff'
-            }
+            },
         }
     }
 );
@@ -88,7 +88,7 @@ const MainNavigator = createDrawerNavigator(
     },
     {
         drawerBackgroundColor: '#CEC8FF'
-    }
+    },
 );
 
 const AppNavigator = createAppContainer(MainNavigator)
