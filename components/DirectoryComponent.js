@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
 
 
 const mapStateToProps = state => {
@@ -24,13 +25,24 @@ class Directory extends Component {
             return (
                 <Tile   // changed from ListItem to Tile for change style, UI component. 
                     title={item.name}
-                    subtitle={item.description}
+                    caption={item.description}
+                    featured
                     onPress={() => navigate('CampsiteInfo', { campsiteId: item.id })}
                     imageSrc={{uri: baseUrl + item.image}}
                 />
             );
         };
 
+        if (this.props.campsites.isLoading) {
+            return <Loading />;
+        }
+        if (this.props.campsites.errMess) {
+            return (
+                <View>
+                    <Text>{this.props.campsites.errMess}</Text>
+                </View>
+            );
+        }
         return (
             <FlatList
                 data={this.props.campsites.campsites} // it was this.state.campsite when with the class constructor, as changed to redux, need to change.
