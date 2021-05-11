@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Animated,
-    Picker, Switch, Button, Modal } from 'react-native';
+    Alert, PanResponder, Picker, Switch, Button, Modal } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 class Reservation extends Component {
@@ -22,13 +22,40 @@ class Reservation extends Component {
         title: 'Reserve Campsite'    //Title on the top 
     }
 
-    toggleModal() {
-        this.setState({showModal: !this.state.showModal}); // this will make toggle model showmodal: false to true
-    }
+    // toggleModal() {
+    //     this.setState({showModal: !this.state.showModal}); // this will make toggle model showmodal: false to true
+    // }
 
     handleReservation() {
         console.log(JSON.stringify(this.state));    // add to json
-        this.toggleModal();                        //when click search button, toggle modal 
+        // this.toggleModal();                        //when click search button, toggle modal 
+
+        let message = `Number of Campers: ${this.state.campers}
+                    \n Hike-In? ${this.state.hikeIn}
+                    \n Date: ${this.state.date}`;
+        Alert.alert(
+            'Begin Search',
+            message,
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                    onPress: () => {
+                        console.log('Reservation Search Canceled');
+                        this.reservationForm;
+                    },
+                    style: 'Cancel'
+                },
+                {
+                    text: 'OK', 
+                    onPress: () => {
+                        this.presentLocalNotification(this.state.date); 
+                        this.resetForm(); 
+                    }
+                }
+            ], 
+            { cancelable: false }
+        );
     }
 
     resetForm() {
@@ -37,7 +64,7 @@ class Reservation extends Component {
             hikeIn: false,
             date: new Date(),
             showCalendar: false,
-            showModal: false                  //show modal is false again, 
+            // showModal: false                  //show modal is false again, 
         });
     }
 
@@ -117,7 +144,9 @@ class Reservation extends Component {
                     />
                 </View>
 
-                <Modal                         //set up modal
+                
+
+                {/* <Modal                         //set up modal
                     animationType={'slide'}   // slide or fade or none
                     transparent={false}
                     visible={this.state.showModal}
@@ -143,7 +172,7 @@ class Reservation extends Component {
                             title='Close'
                         />
                     </View>
-                </Modal>
+                </Modal> */}
                 </Animated.View>
             </ScrollView>
         );
