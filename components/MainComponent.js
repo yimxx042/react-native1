@@ -233,20 +233,6 @@ const MainNavigator = createDrawerNavigator(
                 )
             }
         },
-        About: {
-            screen: AboutNavigator,
-            navigationOptions: {
-                drawerLabel: 'About Us',
-                drawerIcon: ({tintColor}) => (
-                    <Icon
-                        name='info-circle'
-                        type='font-awesome'
-                        size={24}
-                        color={tintColor}
-                    />
-                )
-            }
-        },
         Favorites: {
             screen: FavoritesNavigator,
             navigationOptions: {
@@ -254,6 +240,20 @@ const MainNavigator = createDrawerNavigator(
                 drawerIcon: ({tintColor}) => (
                     <Icon
                         name='heart'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        About: {
+            screen: AboutNavigator,
+            navigationOptions: {
+                drawerLabel: 'About Us',
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='info-circle'
                         type='font-awesome'
                         size={24}
                         color={tintColor}
