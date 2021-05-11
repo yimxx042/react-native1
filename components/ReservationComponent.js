@@ -32,7 +32,7 @@ class Reservation extends Component {
 
         let message = `Number of Campers: ${this.state.campers}
                     \n Hike-In? ${this.state.hikeIn}
-                    \n Date: ${this.state.date}`;
+                    \n Date: ${this.state.date.toLocaleDateString('en-US')}` 
         Alert.alert(
             'Begin Search',
             message,
