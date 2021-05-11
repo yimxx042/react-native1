@@ -127,6 +127,7 @@ class Reservation extends Component {
                 {this.state.showCalendar && (
                     <DateTimePicker
                         value={this.state.date}
+                        format='YYYY-MM-DD'
                         mode={'date'}
                         display='default'
                         onChange={(event, selectedDate) => {
