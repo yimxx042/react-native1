@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Animated,
     Alert, PanResponder, Picker, Switch, Button, Modal } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as Notifications from 'expo-notifications';
 
 class Reservation extends Component {
 
@@ -49,8 +50,8 @@ class Reservation extends Component {
                 {
                     text: 'OK', 
                     onPress: () => {
-                        this.presentLocalNotification(this.state.date); 
-                        this.resetForm(); 
+                        this.presentLocalNotification(this.state.date.toLocaleDateString('en-US'));
+                        this.resetForm();
                     }
                 }
             ], 
@@ -58,15 +59,6 @@ class Reservation extends Component {
         );
     }
 
-    resetForm() {
-        this.setState({
-            campers: 1,
-            hikeIn: false,
-            date: new Date(),
-            showCalendar: false,
-            // showModal: false                  //show modal is false again, 
-        });
-    }
 
     //Animation
 
@@ -84,6 +76,44 @@ class Reservation extends Component {
     componentDidMount() {
         this.animate();
     }     
+
+    resetForm() {
+        this.setState({
+            campers: 1,
+            hikeIn: false,
+            date: new Date(),
+            showCalendar: false,
+            // showModal: false                  //show modal is false again, 
+        });
+    }
+
+    //async function is a special function that always returns a promise
+    //presentLocalNotification is function name
+    async presentLocalNotification(date) {
+        function sendNotification() {
+            Notifications.setNotificationHandler({
+                handleNotification: async () => ({
+                    shouldShowAlert: true
+                })
+            });
+
+            Notifications.scheduleNotificationAsync({
+                content: {
+                    title: 'Your Campsite Reservation Search',
+                    body: `Search for ${date} requested`
+                },
+                trigger: null  //notification fire immediatly 
+            });
+        }
+
+        let permissions = await Notifications.getPermissionsAsync(); //await can use only inside async function. 
+        if (!permissions.granted) {
+            permissions = await Notifications.requestPermissionsAsync();
+        }
+        if (permissions.granted) {
+            sendNotification();
+        }
+    }
 
     render() {
         return (
